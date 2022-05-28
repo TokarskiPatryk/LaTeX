@@ -8,6 +8,11 @@
 \usepackage{graphicx}
 \author{Patryk Tokarski}
 \title{Zadanie }
+
+%grafika
+\usepackage{graphicx}
+\graphicspath{ {./img} }
+
 % do bibliografii
 \usepackage{hyperref}
 
@@ -46,6 +51,19 @@ point/.style = {coordinate}
 \usepackage{mathrsfs}
 \usetikzlibrary{arrows}
 \begin{document}
+
+\begin{titlepage}
+	\hfill \today
+
+	\vspace{.2\textheight}
+
+	\begin{center}
+		{\LARGE\bfseries Tworzenie grafiki w LaTeX\par}
+		\vspace{3cm}
+		Patryk Tokarski \par
+	\end{center}
+	\vfill\centering  \par
+\end{titlepage}
 
 \section{Funkcja wykładnicza}
 %rysunek
@@ -493,11 +511,25 @@ ytick={-1.5,-1,...,4.5},]
 \item Algorytmika: niektóre problemy maja złozoność wykładniczą
 \end{itemize}
 
+\subsection{Płaszczyzna zespolona}
+Funkcję eksponencjalną łatwo uogólnić na ciało liczb zespolonych. Jedną z metod jest wykorzystanie rozwinięcia funkcji w szereg Taylora i podstawienie zespolonego argumentu w miejsce rzeczywistego:
+$$ e^z = \sum_{n=0}^\infty \frac{z^n}{n!}$$
 
+\begin{figure}[hb]
+\centering
+\includegraphics[scale=0.15]{complex}
+\caption{Wykres $e^z$ na płaszczyźnie zespolonej uzyskany techniką kolorowania dziedziny}
+\end{figure}
+
+\newpage
 \section{Schemat blokowy\cite{blokowy}}
 \textbf{Schemat blokowy} – narzędzie służące do przedstawienia kolejnych czynności w projektowanym algorytmie. Jest to diagram, na którym procedura, system lub program komputerowy są reprezentowane przez opisane figury geometryczne połączone strzałkami (niekiedy tylko liniami) zgodnie z kolejnością wykonywania czynności wynikających z przyjętego algorytmu rozwiązania zadania. 
 \subsection{Podstawowe elementy budowy}
-
+\begin{itemize}
+\item \textbf{operator} – prostokąt, do którego wpisywane są wszystkie operacje z wyjątkiem instrukcji wyboru
+\item \textbf{predykat} – romb, do którego wpisywane są wyłącznie instrukcje wyboru
+\item \textbf{etykieta (blok graniczny)} – owal służący do oznaczania początku albo końca sekwencji schematu (kończy, zaczyna albo przerywa lub przenosi schemat).
+\end{itemize}
 
 \subsection{Przykład (Algorytm gotowania budyniu\cite{budyn}}
 
@@ -529,6 +561,8 @@ node[above]{Nie}(step5a)coordinate(mid2);
 \end{tikzpicture}
 \newpage
 
+
+
 \section{Graf pełny\cite{graf}}
 \textbf{Graf pełny} – graf prosty, nieskierowany, w którym dla każdej pary węzłów istnieje krawędź je łącząca.
 
@@ -541,14 +575,14 @@ Graf pełny o n $n$ n wierzchołkach oznacza się przez $K_n$. Niektóre źród�
 \end{itemize}
 \subsection{Przykłady} 
 Poniżej przedstawione zostały grafy pełne o liczbie wierzchołków od 1 do 4.
-\vspace*{25px} 
+\vspace*{15px} 
 \begin{center}
 
 \begin{tikzpicture}
     \node[shape=circle,draw=black] (A) at (0,0) {A};
 \end{tikzpicture}
 
-\vspace*{25px}
+\vspace*{15px}
 \begin{tikzpicture}
     \node[shape=circle,draw=black] (A) at (0,5) {A};
     \node[shape=circle,draw=black] (B) at (5,5) {B};
@@ -558,7 +592,7 @@ Poniżej przedstawione zostały grafy pełne o liczbie wierzchołków od 1 do 4.
 \end{center}
 
 \begin{center}
-\vspace*{25px}
+\vspace*{15px}
 \begin{tikzpicture}
     \node[shape=circle,draw=black] (A) at (0,5) {A};
     \node[shape=circle,draw=black] (B) at (5,5) {B};
@@ -571,7 +605,7 @@ Poniżej przedstawione zostały grafy pełne o liczbie wierzchołków od 1 do 4.
 \end{center}
 
 \begin{center}
-\vspace*{25px}
+\vspace*{15px}
 \begin{tikzpicture}
     \node[shape=circle,draw=black] (D) at (0,0) {D};
     \node[shape=circle,draw=black] (A) at (0,5) {A};
