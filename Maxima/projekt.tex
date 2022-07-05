@@ -1,0 +1,634 @@
+
+\documentclass[a4paper]{article}
+
+%% Created with wxMaxima 22.04.0
+
+\setlength{\parskip}{\medskipamount}
+\setlength{\parindent}{0pt}
+\usepackage{iftex}
+\ifPDFTeX
+  % PDFLaTeX or LaTeX 
+  \usepackage[utf8]{inputenc}
+  \usepackage{polski}
+  \DeclareUnicodeCharacter{00B5}{\ensuremath{\mu}}
+\else
+  %  XeLaTeX or LuaLaTeX
+  \usepackage{fontspec}
+\fi
+\usepackage{graphicx}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{grffile}
+\usepackage{dsfont}
+\usepackage{ifthen}
+\newsavebox{\picturebox}
+\newlength{\pictureboxwidth}
+\newlength{\pictureboxheight}
+\newcommand{\includeimage}[1]{
+    \savebox{\picturebox}{\includegraphics{#1}}
+    \settoheight{\pictureboxheight}{\usebox{\picturebox}}
+    \settowidth{\pictureboxwidth}{\usebox{\picturebox}}
+    \ifthenelse{\lengthtest{\pictureboxwidth > .95\linewidth}}
+    {
+        \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+    }
+    {
+        \ifthenelse{\lengthtest{\pictureboxheight>.80\textheight}}
+        {
+            \includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{#1}
+            
+        }
+        {
+            \includegraphics{#1}
+        }
+    }
+}
+\newlength{\thislabelwidth}
+\DeclareMathOperator{\abs}{abs}
+
+\definecolor{labelcolor}{RGB}{100,0,0}
+%%%%%%%%%%%%%%%%%%%%
+\author{Patryk Tokarski}
+\title{Projekt na zaliczenie pakietu MAXIMA}
+
+
+\begin{document}
+\maketitle
+\newpage
+
+
+{\Large Nasza funkcja ma postać:}
+\begin{equation*}
+	f(x)=\sqrt[5]{x^5+3x^4-11x^3-27x^2+10x+26}
+\end{equation*}
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i1)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+f(x):=(x\^\ 5+3*x\^\ 4-11*x\^\ 3-27*x\^\ 2+10*x+26)\^\ (1/5);
+\end{minipage}
+
+\section{Analiza funkcji} 
+\subsection{Dziedzina funkcji}
+Dziedziną funkcji jest cały zbiór $\mathds{R}$
+%TODO
+\subsection{Granice funkcji na krańcach dziedziny}
+
+\[
+	\lim_{x\to +\infty} f(x) = \lim_{x\to +\infty} \sqrt[5]{x^5+3x^4-11x^3-27x^2+10x+26} 	
+\]
+\[
+	\lim_{x\to +\infty} f(x) = \sqrt[5]{\lim_{x\to +\infty} (x^5+3x^4-11x^3-27x^2+10x+26) } = +\infty
+\]
+Postępując analogicznie otrzymujemy $-\infty$ dla $x \to -\infty$.	
+\subsection{Asymptoty wykresu funkcji}
+\begin{itemize}
+	\item Asymptota pionowa
+		Z racji tego, że nasza funkcja jest ciągła to nie ma ona asymptot pionowych.
+	\item Asymptoty ukośne 
+		Przypomnijmy, że funkcja $f(x)$ ma asymptotę ukośną $y=Ax+B$ gdy \[\lim_{x \to +\infty} \frac{f(x)}{x} = A\]  \[\lim_{x\to +\infty}f(x)-Ax=B\]
+
+\end{itemize}
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i2)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+limit(f(x)/x,x,inf);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o2} 
+1\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i3)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+limit(f(x)-1*x,x,inf);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o3} 
+\frac{3}{5}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Jak widzimy nasze $A=1$ i $B= \frac{3}{5}$\\
+Czyli funkcja posiada asymptotę ukośną, która ma wzór $y = x+\frac{3}{5}$.
+\section{Analiza pierwszej pochodnej}
+Liczymy pochodną przy pomocy funkcji diff:\\
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i4)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+f\_1(x):=''(diff(f(x),x,1));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o4} 
+\operatorname{f\_ 1}(x)\operatorname{:=}\frac{5 {{x}^{4}}+12 {{x}^{3}}-33 {{x}^{2}}-54 x+10}{5 {{\left( {{x}^{5}}+3 {{x}^{4}}-11 {{x}^{3}}-27 {{x}^{2}}+10 x+26\right) }^{\frac{4}{5}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+\subsection{Dziedzina pierwszej pochodnej}
+Liczymy kiedy zeruje się mianownik pierwszej pochodnej:
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i5)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+realroots(x\^\ 5+3*x\^\ 4-11*x\^\ 3-27*x\^\ 2+10*x+26=0);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o5} 
+\operatorname{[}x=-\frac{134533779}{33554432}\operatorname{,}x=-\frac{64689803}{33554432}\operatorname{,}x=-
+\frac{36515359}{33554432}\operatorname{,}x=\frac{34653921}{33554432}\operatorname{,}x=\frac{100421725}{33554432}\operatorname{]}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+Aby ułatwić dalsze operacje tworze zmienne t którymi oznaczę punkty wyłączone z dziedziny.\\ 
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i7)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+t1:-134533779/33554432\$\\
+float(t1);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o7} 
+-4.009419053792953\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i9)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+t2:-64689803/33554432\$\\
+float(t2);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o9} 
+-1.927906364202499\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i11)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+t3:-36515359/33554432\$\\
+float(t3);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o11} 
+-1.088242501020432\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i13)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+t4:34653921/33554432\$\\
+float(t4);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o13} 
+1.032767325639725\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i15)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+t5:100421725/33554432\$\\
+float(t5);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o15} 
+2.992800623178482\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Zatem dziedzina pochodnej to $\mathds{R}/\{t1,t2,t3,t4,t5\}$
+
+\subsection{Miejsca zerowe pierwszej pochodnej}
+
+Obliczamy je przy pomocy odpowiedniej funkcji i zapisujemy jako kolejne zmienne x:
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i16)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+realroots(f\_1(x));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o16} 
+\operatorname{[}x=-\frac{112567015}{33554432}\operatorname{,}x=-\frac{51220217}{33554432}\operatorname{,}x=\frac{5667285}{33554432}\operatorname{,
+}x=\frac{77589309}{33554432}\operatorname{]}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i20)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+x1:-112567015/33554432\$\\
+x2:-51220217/33554432\$\\
+x3:5667285/33554432\$\\
+x4:77589309/33554432\$
+\end{minipage}
+
+\noindent%
+
+\subsection{Przedziały monotoniczności funkcji}
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i21)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+limit(f\_1(x),\ x,\ minf);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o21} 
+1\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Wartość pochodnej w minus nieskończoności to 1 więc:
+$$f'(x)>0 \mbox{ wtt gdy } x \in (-\infty,x_1)\cup(x_2,x_3)\cup(x_4,+\infty) \\$$
+$$f'(x)<0 \mbox{ wtt gdy } x \in (x_1,x_2) \cup (x_3,x_4)$$
+\subsection{Ekstrema funkcji}
+Ekstrema minima lokalne są w punktach: $x_2, x_4$.\\
+Ekstrema maksima lokalne są w punktach: $x_1, x_3$.\\
+By określić ekstrema globalne liczymy wartosci funkcji w wyżej wymienionych punktach:
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i22)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f(x1));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o22} 
+2.260039727389741\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i23)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f(x2));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o23} 
+-1.382587454924842\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i24)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f(x3));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o24} 
+1.931293053098893\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i25)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f(x4));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o25} 
+-2.398446670693105\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+Jak widać ekstremum maksimum globalne jest w punkcie $x_1$, a ekstremum minimum globalne w punkcie $x_4$.
+\section{Analiza drugiej pochodnej}
+Najpierw obliczymy z pomocą Maximy drugą pochodną 
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i26)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+f\_2(x):=''(diff(f(x),x,2));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o26} 
+\operatorname{f\_ 2}(x)\operatorname{:=}\frac{20 {{x}^{3}}+36 {{x}^{2}}-66 x-54}{5 {{\left( {{x}^{5}}+3 {{x}^{4}}-11 {{x}^{3}}-27 {{x}^{2}}+10 x+26\right) }^{\frac{4}{5}}}}-
+\frac{4 {{\left( 5 {{x}^{4}}+12 {{x}^{3}}-33 {{x}^{2}}-54 x+10\right) }^{2}}}{25 {{\left( {{x}^{5}}+3 {{x}^{4}}-11 {{x}^{3}}-27 {{x}^{2}}+10 x+26\right) }^{\frac{9}{5}}}}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Po uproszczeniu dostajemy, że nasza druga pochodna jest równa:
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i27)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+f\_2\_simple(x):=''(ratsimp(f\_2(x)));
+\end{minipage}
+%%%% OUTPUT:
+\[
+\operatorname{f\_ 2\_ simple}(x)\operatorname{:=}-\operatorname{(}{{\left( {{x}^{5}}+3 {{x}^{4}}-11 {{x}^{3}}-27 {{x}^{2}}+10 x+26\right) }^{\frac{1}{5}}}\]
+\[\operatorname{(}146 {{x}^{6}}+612 {{x}^{5}}+
+612 {{x}^{4}}-1064 {{x}^{3}}+354 {{x}^{2}}+6960 x+7420\operatorname{)}\operatorname{)}\]
+\[/\operatorname{(}25 {{x}^{10}}+150 {{x}^{9}}-325 {{x}^{8}}-3000 {{x}^{7}}-525 {{x}^{6}}+17650 {{x}^{5}}+16625 {{x}^{4}}-27800 {{x}^{3}}-32600 {{x}^{2}}+13000 x+16900\operatorname{)}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+\subsection{Dziedzina drugiej pochodnej}
+Liczymy kiedy mianownik się zeruje:
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i28)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+realroots(25*x\^\ 10+150*x\^\ 9-325*x\^\ 8-3000*x\^\ 7-525*x\^\ 6+17650*x\^\ 5+16625*x\^\ 4-27800*x\^\ 3-32600*x\^\ 2+13000*x+16900);
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o28} 
+\operatorname{[}x=-\frac{134533779}{33554432}\operatorname{,}x=-\frac{64689803}{33554432}\operatorname{,}x=-
+\frac{36515359}{33554432}\operatorname{,}x=\frac{34653921}{33554432}\operatorname{,}x=\frac{100421725}{33554432}\operatorname{]}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Do dziedziny nie należą właśnie te punkty. Są to punkty wcześniej oznaczone przez t1,t2,... . Oznacza to, że dziedzina drugiej pochodnej jest taka sama jak pierwszej.
+\subsection{Miejsca zerowe drugiej pochodnej}
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i29)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+allroots(f\_2(x));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \mbox{}\\\mbox{%default
+allroots: expected a polynomial; found }\ensuremath{\mathrm{errexp1
+}}\mbox{%error
+ -- an error. To debug this try: debugmode(true);}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+Otrzymaliśmy błąd, więc druga pochodna nie ma miejsc zerowych. 
+\subsection{Przedziały stałego znaku drugiej pochodnej}
+
+Skoro druga pochodna nie ma miejsc zerowych, to w każdym przedziale dziedziny sprawdzimy wartość funkcji w dowolnym punkcie, dzięki czemu będziemy wiedzieć jaki jest znak wartości drugiej pochodnej w tym przedziale.
+
+\begin{itemize}
+	\item 1 przedział (-oo,t1):
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i30)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(-5));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o30} 
+0.374451897594516\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+\item 2 przedział (t1,t2):
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i31)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(-2.5));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o31} 
+-1.163066666628178\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+\item 3 przedział (t2,t3):
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i32)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(-1.5));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o32} 
+3.233832698501276\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+\item 4 przedział (t3,t4):
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i33)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(0));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o33} 
+-0.842387415494661\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+\item 5 przedział (t4,t5):
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i34)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(2));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o34} 
+1.011263415849287\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+\item 6 przedział (t5,+oo):
+
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i35)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+float(f\_2(4));
+\end{minipage}
+%%%% OUTPUT:
+\[\displaystyle \tag{\% o35} 
+-0.3875940735998362\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+\end{itemize}
+
+
+
+\begin{equation*}
+	f''(x)>0 \mbox{ gdy } x \in (-\infty,t_1) \cup (t_2,t_3) \cup (t_4,t_5)
+\end{equation*}
+\begin{equation*}
+	f''(x)<0 \mbox{ gdy } x \in (t_1,t_2) \cup (t_3,t_4) \cup (t_5,+\infty)
+\end{equation*}
+
+Uzyskaliśmy dzięki temu informację, że nasza krzywa jest wypukła, gdy x nalezy do przedziałów, które dla drugiej pochodnej są większe od zera, a wklęsła gdy x należy do tych przedziałów, które dla drugiej pochodnej są mniejsze od zera.
+
+
+\pagebreak
+\subsection{Punkty przegięcia wykresu}
+Punktami przegięcia w naszym przypadku będą punkty wyłączone z dziedziny pochodnych. Przypomnijmy, że są to punkty t1, t2, t3, t4, t5.
+
+\section{Tabela zmienności funkcji}
+Tabelę podzieliłem na dwie części, ponieważ w przeciwnym przypadku nie zmieściłaby się.
+
+%%%%%%%%%%%%%%%% TABELA
+\begin{table}[h]
+	\label{tab:my-table1}
+	\begin{tabular}{l|llclclclclc}
+		       & \multicolumn{1}{c}{$+\infty$} &   & t1                                                  &   & \multicolumn{1}{l}{x1}                                  &   & \multicolumn{1}{l}{t2}                              &   & \multicolumn{1}{l}{x2}                                   &   & \multicolumn{1}{l}{t3}                              \\ \hline
+		f'(x)  & \multicolumn{1}{c}{}    & + & *                                                   & + & 0                                                       & - & *                                                   & - & 0                                                        & + & *                                                   \\
+		f''(x) &                         & + & *                                                   & - & -                                                       & - & *                                                   & + & +                                                        & + & *                                                   \\
+		f(x)   & $+\infty$                     &   & \begin{tabular}[c]{@{}c@{}}pp\\ (t1,0)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}MAX\\ (x1,2.26)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}pp\\ (t2,0)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}min\\ (x2,-1.38)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}pp\\ (t3,0)\end{tabular}
+	\end{tabular}
+\end{table}
+\begin{table}[h]
+
+	\label{tab:my-table}
+	\begin{tabular}{l|lclclclclc}
+		       &   & \multicolumn{1}{l}{x3}                                  &   & \multicolumn{1}{l}{t4}                              &   & \multicolumn{1}{l}{x4}                                  &   & \multicolumn{1}{l}{t5}                              &   & \multicolumn{1}{l}{$+\infty$} \\ \hline
+		f'(x)  & + & 0                                                       & - & *                                                   & - & 0                                                       & + & *                                                   & + &                         \\
+		f''(x) & - & -                                                       & - & *                                                   & + & +                                                       & + & *                                                   & - &                         \\
+		f(x)   &   & \begin{tabular}[c]{@{}c@{}}max\\ (x3,1.93)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}pp\\ (t4,0)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}MIN\\ (x4,-2.4)\end{tabular} &   & \begin{tabular}[c]{@{}c@{}}pp\\ (t5,0)\end{tabular} &   & $+\infty$                    
+
+	\end{tabular}
+	\caption{Tabela zmienności funkcji}
+
+\end{table}
+	* - punkt wyłączony z dziedziny;\\
+	+/- - znak wartości funkcji w przedziale
+%%%%%%%%%%%%%%%%%%% TABELA
+\pagebreak
+\section{Wykres funkcji}
+Wykres stworzono przy pomocy programu Maxima.
+
+\noindent
+%%%%%%%%
+%% INPUT:
+\begin{minipage}[t]{4.000000em}\color{red}\bfseries
+(\% i36)	
+\end{minipage}
+\begin{minipage}[t]{\textwidth}\color{blue}
+wxplot2d(f(x),\ [x,-10,10],[y,-10,10],[axes,\ solid],\\
+\ \ \ \ [grid2d,\ true],[xtics,\ 1],[ytics,\ 1],\\
+\ \ \ \ [title,\ "Wykres\ funkcji\ f(x)"],\ [xlabel,\ "x"],\\
+\ \ \ \ [ylabel,\ "f(x)"])\$\\
+
+\end{minipage}
+%%%% OUTPUT:
+
+\[ 
+\includegraphics[width=.95\linewidth,height=.80\textheight,keepaspectratio]{projekt_img/projekt_1}\mbox{}
+\]
+%%%%%%%%%%%%%%%%
+
+\end{document}
